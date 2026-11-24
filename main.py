@@ -25,6 +25,10 @@ def main():
     text = JOKE.strip()
     if not 1 <= len(text) <= 280 or "\n" in text:
         raise ValueError("joke must be one line of 1-280 characters")
+    if any(ord(ch) < 0x20 or ord(ch) == 0x7F for ch in text):
+        raise ValueError("joke must not contain control characters")
+    if text != JOKE:
+        raise ValueError("joke text must match the entry exactly")
     path = resolve_output_path()
     parent = os.path.dirname(path)
     if parent:
